@@ -10,9 +10,9 @@ let click = 0;
 
 const game = document.querySelector('.game');
 
-let sortNumber = ()=> Math.floor(Math.random() * 39);
+let sortNumber = () => Math.floor(Math.random() * 39);
 
-const createGame = async ()=> {
+const createGame = async () => {
     await createVariaveis()
 }
 
@@ -24,30 +24,30 @@ const createVariaveis = async () => {
     await createEmptyCircle();
     // await createStart();
 
-    await functionInit("Iniciar", ()=>  {
+    await functionInit("Iniciar", () => {
         functionAssista();
         functionStart(order, 0);
     })
 }
 
-const createElColors = ( color )=> {
+const createElColors = (color) => {
     let circle = document.createElement("div");
-    color.map( (item)=> {
+    color.map((item) => {
         let div = document.createElement("div");
         // div.className = "circle";
         div.style = item;
         div.setAttribute("data-number", aux)
-        div.onclick = (e)=> {
-            if(!activeClick) return
+        div.onclick = (e) => {
+            if (!activeClick) return
             // let c = div.style.backgroundColor;
             // div.style.backgroundColor = "#fff"
             let el = e.target.getAttribute("data-number")
-            if ( order[click] ==  +el) {
-                if(!order[click + 1]) {
+            if (order[click] == +el) {
+                if (!order[click + 1]) {
                     order.push(sortNumber())
                     functionAssista()
 
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         functionStart(order, 0);
                     }, 1000)
 
@@ -68,76 +68,78 @@ const createEmptyCircle = () => {
 }
 
 
-const createStart = ()=> {
+const createStart = () => {
     emptyCircle.innerHTML = "";
     let start = document.createElement("div");
     start.className = "start";
     start.innerText = "Iniciar";
-    start.onclick =()=>  {
+    start.onclick = () => {
         functionAssista();
         functionStart(order, 0);
     }
     emptyCircle.appendChild(start);
 }
 
-const functionStart = (n, i)=> {
+const functionStart = (n, i) => {
     let el = document.querySelector(".game [data-number='" + n[i] + "']");
     let color = el.style.backgroundColor
     el.style.backgroundColor = "#fff"
-    setTimeout(()=> {
+    setTimeout(() => {
         el.style.backgroundColor = color;
-        setTimeout(()=> {
-            if(!!n[i + 1]){
+        setTimeout(() => {
+            if (!!n[i + 1]) {
                 functionStart(n, i + 1)
             } else {
-                functionSuaVez()
+                setTimeout(() => {
+                    functionSuaVez()
+                }, 500)
             }
         }, 500)
     }, 1000)
 }
 
-const functionInit = (text, func, color = "")=> {
+const functionInit = (text, func, color = "") => {
     emptyCircle.innerHTML = "";
     let div = document.createElement("div");
     div.className = "start " + color;
     div.innerText = text;
 
-    if (!!func){
+    if (!!func) {
         div.onclick = func;
     }
 
     emptyCircle.appendChild(div);
 }
 
-const functionAssista = ()=> {
+const functionAssista = () => {
     emptyCircle.innerHTML = "";
     game.className = "game"
     activeClick = false
-    functionInit("Assista", ()=>{}, "cornflowerblue")
+    functionInit("Assista", () => { }, "cornflowerblue")
 }
 
-const functionSuaVez = ()=> {
+const functionSuaVez = () => {
     emptyCircle.innerHTML = "";
-    functionInit("Sua vez",()=>{}, "green");
+    functionInit("Sua vez", () => { }, "green");
     click = 0;
     game.className = "game active"
     activeClick = true;
 }
 
-const functionRecomecar = async ()=> {
+const functionRecomecar = async () => {
     emptyCircle.innerHTML = "";
     order = [];
     click = 0;
     activeClick = false
     await order.push(sortNumber())
 
-    functionInit("Recomecar", () => 
-        functionInit("Iniciar", ()=>  {
+    functionInit("Recomecar", () =>
+        functionInit("Iniciar", () => {
             functionAssista();
             functionStart(order, 0);
         }), "black"
     );
-    
+
     game.className = "game"
 
 }
