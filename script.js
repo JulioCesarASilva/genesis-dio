@@ -1,12 +1,20 @@
 
 
 let order = [];
-let level = 1;
-let score = 0;
-let emptyCircle = null;
 let activeClick = false;
-let aux = 0;
-let click = 0;
+
+let el = {
+    emptyCircle: null,
+    level: document.querySelector(".leftPanel .level .num"),
+    point: document.querySelector(".leftPanel .point .num")
+}
+
+let numbers = {
+    level: 1,
+    score: 0,
+    aux: 0,
+    click: 0
+}
 
 const game = document.querySelector('.game');
 
@@ -30,31 +38,34 @@ const createVariaveis = async () => {
     })
 }
 
+const createEl = (type)=> document.createElement(type);
+
 const createElColors = (color) => {
-    let circle = document.createElement("div");
+    let circle = createEl("div");
     color.map((item) => {
-        let div = document.createElement("div");
+        let div = createEl("div");
         // div.className = "circle";
         div.style = item;
-        div.setAttribute("data-number", aux)
+        div.setAttribute("data-number", numbers.aux)
         div.onclick = (e) => {
             if (!activeClick) return
             // let c = div.style.backgroundColor;
             // div.style.backgroundColor = "#fff"
             let el = e.target.getAttribute("data-number")
-            if (order[click] == +el) {
-                if (!order[click + 1]) {
+            if (order[numbers.click] == +el) {
+                if (!order[numbers.click + 1]) {
                     order.push(sortNumber())
-                    functionAssista()
+                    numbers.level++ & upLevel();
+                    functionAssista();
 
                     setTimeout(() => {
                         functionStart(order, 0);
                     }, 1000)
 
-                } else click++
+                } else numbers.click++ & numbers.score++ & upScore();
             } else functionRecomecar();
         }
-        aux++
+        numbers.aux++
         circle.appendChild(div);
     })
     circle.className = "circle"
@@ -62,22 +73,21 @@ const createElColors = (color) => {
 }
 
 const createEmptyCircle = () => {
-    emptyCircle = document.createElement("div");
-    emptyCircle.className = "emptyCircle";
-    game.appendChild(emptyCircle);
+    el.emptyCircle = createEl("div");
+    el.emptyCircle.className = "emptyCircle";
+    game.appendChild(el.emptyCircle);
 }
 
-
 const createStart = () => {
-    emptyCircle.innerHTML = "";
-    let start = document.createElement("div");
+    el.emptyCircle.innerHTML = "";
+    let start = createEl("div");
     start.className = "start";
     start.innerText = "Iniciar";
     start.onclick = () => {
         functionAssista();
         functionStart(order, 0);
     }
-    emptyCircle.appendChild(start);
+    el.emptyCircle.appendChild(start);
 }
 
 const functionStart = (n, i) => {
@@ -99,8 +109,8 @@ const functionStart = (n, i) => {
 }
 
 const functionInit = (text, func, color = "") => {
-    emptyCircle.innerHTML = "";
-    let div = document.createElement("div");
+    el.emptyCircle.innerHTML = "";
+    let div = createEl("div");
     div.className = "start " + color;
     div.innerText = text;
 
@@ -108,41 +118,45 @@ const functionInit = (text, func, color = "") => {
         div.onclick = func;
     }
 
-    emptyCircle.appendChild(div);
+    el.emptyCircle.appendChild(div);
 }
 
 const functionAssista = () => {
-    emptyCircle.innerHTML = "";
+    el.emptyCircle.innerHTML = "";
     game.className = "game"
     activeClick = false
     functionInit("Assista", () => { }, "cornflowerblue")
 }
 
 const functionSuaVez = () => {
-    emptyCircle.innerHTML = "";
+    el.emptyCircle.innerHTML = "";
     functionInit("Sua vez", () => { }, "green");
-    click = 0;
+    numbers.click = 0;
     game.className = "game active"
     activeClick = true;
 }
 
 const functionRecomecar = async () => {
-    emptyCircle.innerHTML = "";
+    el.emptyCircle.innerHTML = "";
     order = [];
-    click = 0;
+    numbers.click = 0;
     activeClick = false
+    numbers.level = 1
     await order.push(sortNumber())
 
     functionInit("Recomecar", () =>
-        functionInit("Iniciar", () => {
+        upLevel() & functionInit("Iniciar", () => {
             functionAssista();
             functionStart(order, 0);
         }), "black"
     );
 
-    game.className = "game"
-
+    game.className = "game";
 }
+
+const upScore = ()=> el.point.innerHTML = numbers.score;
+
+const upLevel = ()=> el.level.innerHTML = numbers.level;
 
 const color = {
     index1: [

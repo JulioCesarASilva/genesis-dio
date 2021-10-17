@@ -136,3 +136,51 @@ body{
     border-radius: 3px;
 }
 
+.goals strong {
+    color: #cdcdcd;
+}
+
+.goals p {
+    color: #999;
+    font-weight: 400;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+
+.goals .text{
+    font-size: 28px;
+    line-height: 40px;
+    font-weight: 300;
+    color: #1473e6;
+}
+
+.level *{
+    color: #cdcdcd;
+}
+
+.leftPanel .level {
+    word-spacing: 20px;
+    padding-bottom: 15px;
+}
+
+.leftPanel .barLoader .label {
+    color: #b9b9b9;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3;
+    text-align: left;
+    margin-bottom: 9px;
+}
+
+.leftPanel .point strong{
+    color: #cdcdcd;
+    font-size: 20px;
+    line-height: 51px;
+    font-weight: 700;
+}
+
+.leftPanel .point strong.num{
+    font-size: 73px;
+    font-weight: 400;
+    line-height: 70px;
+}
