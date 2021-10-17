@@ -35,10 +35,11 @@ const createVariaveis = async () => {
     await functionInit("Iniciar", () => {
         functionAssista();
         functionStart(order, 0);
+        upScore();
     })
 }
 
-const createEl = (type)=> document.createElement(type);
+const createEl = (type) => document.createElement(type);
 
 const createElColors = (color) => {
     let circle = createEl("div");
@@ -53,6 +54,8 @@ const createElColors = (color) => {
             // div.style.backgroundColor = "#fff"
             let el = e.target.getAttribute("data-number")
             if (order[numbers.click] == +el) {
+                numbers.score++;
+                upScore();
                 if (!order[numbers.click + 1]) {
                     order.push(sortNumber())
                     numbers.level++ & upLevel();
@@ -62,7 +65,10 @@ const createElColors = (color) => {
                         functionStart(order, 0);
                     }, 1000)
 
-                } else numbers.click++ & numbers.score++ & upScore();
+                } else {
+                    numbers.click++;
+                    
+                }
             } else functionRecomecar();
         }
         numbers.aux++
@@ -140,12 +146,13 @@ const functionRecomecar = async () => {
     el.emptyCircle.innerHTML = "";
     order = [];
     numbers.click = 0;
-    activeClick = false
-    numbers.level = 1
+    activeClick = false;
+    numbers.level = 1;
+    numbers.score = 0;
     await order.push(sortNumber())
 
     functionInit("Recomecar", () =>
-        upLevel() & functionInit("Iniciar", () => {
+        upScore() & upLevel() & functionInit("Iniciar", () => {
             functionAssista();
             functionStart(order, 0);
         }), "black"
@@ -154,9 +161,9 @@ const functionRecomecar = async () => {
     game.className = "game";
 }
 
-const upScore = ()=> el.point.innerHTML = numbers.score;
+const upScore = () => el.point.innerHTML = numbers.score;
 
-const upLevel = ()=> el.level.innerHTML = numbers.level;
+const upLevel = () => el.level.innerHTML = numbers.level;
 
 const color = {
     index1: [
