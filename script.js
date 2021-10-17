@@ -21,18 +21,17 @@ const game = document.querySelector('.game');
 let sortNumber = () => Math.floor(Math.random() * 39);
 
 const createGame = async () => {
-    await createVariaveis()
+    createVariaveis()
 }
 
-const createVariaveis = async () => {
-    await createElColors(color.index3)
-    await createElColors(color.index2)
-    await createElColors(color.index1)
-    await order.push(sortNumber())
-    await createEmptyCircle();
-    // await createStart();
+const createVariaveis = () => {
+    createElColors(color.index3)
+    createElColors(color.index2)
+    createElColors(color.index1)
+    order.push(sortNumber())
+    createEmptyCircle();
 
-    await functionInit("Iniciar", () => {
+    functionInit("Iniciar", () => {
         functionAssista();
         functionStart(order, 0);
         upScore();
@@ -67,7 +66,7 @@ const createElColors = (color) => {
 
                 } else {
                     numbers.click++;
-                    
+
                 }
             } else functionRecomecar();
         }
@@ -142,14 +141,14 @@ const functionSuaVez = () => {
     activeClick = true;
 }
 
-const functionRecomecar = async () => {
+const functionRecomecar = () => {
     el.emptyCircle.innerHTML = "";
     order = [];
     numbers.click = 0;
     activeClick = false;
     numbers.level = 1;
     numbers.score = 0;
-    await order.push(sortNumber())
+    order.push(sortNumber())
 
     functionInit("Recomecar", () =>
         upScore() & upLevel() & functionInit("Iniciar", () => {
