@@ -6,29 +6,31 @@ let activeClick = false;
 let el = {
     emptyCircle: null,
     level: document.querySelector(".leftPanel .level .num"),
-    point: document.querySelector(".leftPanel .point .num")
+    point: document.querySelector(".leftPanel .point .num"),
+    game: document.querySelector('.game'),
+    cronometro: document.querySelector(".barLoader .spectrum-barLoader-filf")
 }
 
 let numbers = {
     level: 1,
     score: 0,
     aux: 0,
-    click: 0
+    click: 0,
+    cBase: 5000,
+    cTemp: 0,
+    cPTemp: 0,
+    c30: 0,
+    c60: 0
 }
-
-const game = document.querySelector('.game');
 
 let sortNumber = () => Math.floor(Math.random() * 39);
-
-const createGame = async () => {
-    createVariaveis()
-}
 
 const createVariaveis = () => {
     createElColors(color.index3)
     createElColors(color.index2)
     createElColors(color.index1)
     order.push(sortNumber())
+
     createEmptyCircle();
 
     functionInit("Iniciar", () => {
@@ -44,17 +46,13 @@ const createElColors = (color) => {
     let circle = createEl("div");
     color.map((item) => {
         let div = createEl("div");
-        // div.className = "circle";
         div.style = item;
         div.setAttribute("data-number", numbers.aux)
         div.onclick = (e) => {
             if (!activeClick) return
-            // let c = div.style.backgroundColor;
-            // div.style.backgroundColor = "#fff"
             let el = e.target.getAttribute("data-number")
             if (order[numbers.click] == +el) {
-                numbers.score++;
-                upScore();
+                numbers.score++ & upScore();
                 if (!order[numbers.click + 1]) {
                     order.push(sortNumber())
                     numbers.level++ & upLevel();
@@ -64,23 +62,20 @@ const createElColors = (color) => {
                         functionStart(order, 0);
                     }, 1000)
 
-                } else {
-                    numbers.click++;
-
-                }
+                } else numbers.click++;
             } else functionRecomecar();
         }
         numbers.aux++
         circle.appendChild(div);
     })
     circle.className = "circle"
-    game.appendChild(circle);
+    el.game.appendChild(circle);
 }
 
 const createEmptyCircle = () => {
     el.emptyCircle = createEl("div");
     el.emptyCircle.className = "emptyCircle";
-    game.appendChild(el.emptyCircle);
+    el.game.appendChild(el.emptyCircle);
 }
 
 const createStart = () => {
@@ -102,13 +97,8 @@ const functionStart = (n, i) => {
     setTimeout(() => {
         el.style.backgroundColor = color;
         setTimeout(() => {
-            if (!!n[i + 1]) {
-                functionStart(n, i + 1)
-            } else {
-                setTimeout(() => {
-                    functionSuaVez()
-                }, 500)
-            }
+            if (!!n[i + 1]) functionStart(n, i + 1);
+            else setTimeout(() => functionSuaVez(), 500);
         }, 500)
     }, 1000)
 }
@@ -128,8 +118,9 @@ const functionInit = (text, func, color = "") => {
 
 const functionAssista = () => {
     el.emptyCircle.innerHTML = "";
-    game.className = "game"
+    el.game.className = "game"
     activeClick = false
+    calcCronometro();
     functionInit("Assista", () => { }, "cornflowerblue")
 }
 
@@ -137,8 +128,9 @@ const functionSuaVez = () => {
     el.emptyCircle.innerHTML = "";
     functionInit("Sua vez", () => { }, "green");
     numbers.click = 0;
-    game.className = "game active"
+    el.game.className = "game active"
     activeClick = true;
+    tempCronometro();
 }
 
 const functionRecomecar = () => {
@@ -157,12 +149,30 @@ const functionRecomecar = () => {
         }), "black"
     );
 
-    game.className = "game";
+    el.game.className = "game";
 }
 
 const upScore = () => el.point.innerHTML = numbers.score;
 
 const upLevel = () => el.level.innerHTML = numbers.level;
+
+const calcCronometro = ()=> {
+    numbers.cTemp = numbers.cBase * numbers.level
+    let calc = (numbers.cBase / 1000);
+    numbers.c30 = (Math.round(0.3 * calc) * 1000);
+    numbers.c60 = (Math.round(0.6 * calc) * 1000);
+    numbers.cPTemp = numbers.cTemp;
+}
+
+const tempCronometro = ()=> {
+    setTimeout(()=>{
+        console.log(numbers.cPTemp)
+        if (numbers.cPTemp >= 1000 ) {
+            numbers.cPTemp -= 1000;
+            tempCronometro()
+        }
+    }, 1000)
+}
 
 const color = {
     index1: [
@@ -212,4 +222,4 @@ const color = {
     ]
 }
 
-createGame();
+createVariaveis();
