@@ -6,7 +6,7 @@ Esse é o repositório de uma aula de Javascript, na qual feito um simples jogo 
 
 ##### A plataforma onde disponibilizou a aula (Pra caso vc não tenha chegado pelo curso, da uma olhada no link "É GRATIS" kkkkk)
 
-* [Digital Innovation](https://web.digitalinnovation.one/)
+* [Digital Innovation](https://digitalinnovation.one/sign-up?ref=BF0HRE97RI)
 
 ##### A plataforma que foi usada de base para a aula:
 
