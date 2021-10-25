@@ -14,4 +14,8 @@ Esse é o repositório de uma aula de Javascript, na qual feito um simples jogo 
 
 
 
-## 🚀 Let's code! 🚀
+## 🚀 How to play? 🚀
+
+ - Baixe todos os arquivos do Git
+ - Abra o arquivo html em um navegador
+ - Pronto. Só jogar :)
