@@ -131,9 +131,17 @@ body{
 .leftPanel .barLoader .spectrum-barLoader-filf {
     height: 6px;
     background: green;
-    width: 50%;
+    width: 100%;
     transition: width 0.5s;
     border-radius: 3px;
+}
+
+.leftPanel .barLoader .spectrum-barLoader-filf.c30 {
+    background: red !important;
+}
+
+.leftPanel .barLoader .spectrum-barLoader-filf.c60 {
+    background: yellow !important;
 }
 
 .goals strong {

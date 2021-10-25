@@ -2,6 +2,7 @@
 
 let order = [];
 let activeClick = false;
+let temp = false
 
 let el = {
     emptyCircle: null,
@@ -57,13 +58,14 @@ const createElColors = (color) => {
                     order.push(sortNumber())
                     numbers.level++ & upLevel();
                     functionAssista();
+                    temp = false;
 
                     setTimeout(() => {
                         functionStart(order, 0);
                     }, 1000)
 
                 } else numbers.click++;
-            } else functionRecomecar();
+                } else functionRecomecar();
         }
         numbers.aux++
         circle.appendChild(div);
@@ -121,6 +123,8 @@ const functionAssista = () => {
     el.game.className = "game"
     activeClick = false
     calcCronometro();
+    el.cronometro.style.width = "100%"
+    el.cronometro.className = "spectrum-barLoader-filf"
     functionInit("Assista", () => { }, "cornflowerblue")
 }
 
@@ -130,6 +134,7 @@ const functionSuaVez = () => {
     numbers.click = 0;
     el.game.className = "game active"
     activeClick = true;
+    temp = true
     tempCronometro();
 }
 
@@ -140,6 +145,9 @@ const functionRecomecar = () => {
     activeClick = false;
     numbers.level = 1;
     numbers.score = 0;
+    temp = false
+    el.cronometro.style.width = "100%"
+    el.cronometro.className = "spectrum-barLoader-filf"
     order.push(sortNumber())
 
     functionInit("Recomecar", () =>
@@ -157,18 +165,31 @@ const upScore = () => el.point.innerHTML = numbers.score;
 const upLevel = () => el.level.innerHTML = numbers.level;
 
 const calcCronometro = ()=> {
-    numbers.cTemp = numbers.cBase * numbers.level
-    let calc = (numbers.cBase / 1000);
+    console.log("Calculando")
+    debugger
+    numbers.cTemp = numbers.cTemp == 0 ? numbers.cBase + ( numbers.level * 1000 ) : numbers.cTemp + ( numbers.level * 1000 ) 
+    let calc = (numbers.cTemp / 1000);
     numbers.c30 = (Math.round(0.3 * calc) * 1000);
     numbers.c60 = (Math.round(0.6 * calc) * 1000);
     numbers.cPTemp = numbers.cTemp;
+    temp = true;
 }
 
 const tempCronometro = ()=> {
     setTimeout(()=>{
-        console.log(numbers.cPTemp)
+        if(!temp) return;
+        console.log(numbers.cPTemp) 
+        if (numbers.cPTemp == 0) {
+            functionRecomecar()
+            return;
+        } 
+
+        if(numbers.cPTemp == numbers.c60) el.cronometro.className = "spectrum-barLoader-filf c60";
+        if(numbers.cPTemp == numbers.c30) el.cronometro.className = "spectrum-barLoader-filf c30";
+
         if (numbers.cPTemp >= 1000 ) {
             numbers.cPTemp -= 1000;
+            el.cronometro.style.width = numbers.cPTemp / (numbers.cTemp / 100) + "%"
             tempCronometro()
         }
     }, 1000)
