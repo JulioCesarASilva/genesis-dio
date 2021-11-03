@@ -8,9 +8,16 @@ Esse é o repositório de uma aula de Javascript, na qual feito um simples jogo 
 
 * [Digital Innovation](https://digitalinnovation.one/sign-up?ref=BF0HRE97RI)
 
-##### A plataforma que foi usada de base para a aula:
+##### A plataforma que foi usada de base para o exercicio:
 
 * [Adobe Color Game](https://color.adobe.com/pt/color-wheel-game)
+
+##### Itens usados:
+
+* [HTML](https://www.w3schools.com/html/)
+* [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+* [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+
 
 
 
